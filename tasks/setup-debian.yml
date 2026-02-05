@@ -23,7 +23,7 @@
   until: __pkg_result is success
   with_items: "{{ locales_present }}"
   when:
-    - ansible_distribution == 'Ubuntu'
+    - ansible_facts.distribution == 'Ubuntu'
     - locales_present is defined
     - locales_present | length > 0
   notify: Update locales
@@ -40,7 +40,7 @@
   until: __pkg_result is success
   with_items: "{{ locales_absent }}"
   when:
-    - ansible_distribution == 'Ubuntu'
+    - ansible_facts.distribution == 'Ubuntu'
     - locales_absent is defined
     - locales_absent | length > 0
   notify: Update locales
