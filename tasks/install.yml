@@ -8,3 +8,6 @@
 - name: "Debian tasks"
   ansible.builtin.import_tasks: setup-debian.yml
   when: ansible_facts.os_family == 'Debian'
+
+- name: "Flush handlers"
+  ansible.builtin.meta: flush_handlers
