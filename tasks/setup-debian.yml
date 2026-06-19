@@ -75,7 +75,7 @@
     - locales_absent is defined
     - locales_absent | length > 0
 
-- name: DEBIAN | Set default locale
+- name: "DEBIAN | Set default locale"
   ansible.builtin.template:
     src: locale.j2
     dest: /etc/default/locale
@@ -85,3 +85,21 @@
   when:
     - locales_default is defined
     - locales_default | length > 0
+
+- name: "DEBIAN | Ensure keyboard-configuration package is installed"
+  ansible.builtin.apt:
+    name: console-setup
+    state: present
+  register: __pkg_result
+  retries: 12
+  delay: 10
+  until: __pkg_result is success
+
+- name: "DEBIAN | Set keymap"
+  ansible.builtin.template:
+    src: keyboard.j2
+    dest: /etc/default/keyboard
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reconfigure keyboard

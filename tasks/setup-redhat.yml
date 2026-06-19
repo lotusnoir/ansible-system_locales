@@ -29,6 +29,16 @@
     - locales_absent is defined
     - locales_absent | length > 0
 
+- name: REDHAT | Install keyboard pack
+  ansible.builtin.dnf:
+    name:
+      - "kbd"
+    state: present
+  register: __pkg_result
+  retries: 12
+  delay: 10
+  until: __pkg_result is success
+
 - name: REDHAT | Set default locale
   ansible.builtin.command: "localectl set-locale LANG={{ locales_default.lang }}"
   changed_when: false
@@ -102,3 +112,7 @@
   ansible.builtin.command: "localectl set-locale LC_TIME={{ locales_default.lc_time }}"
   changed_when: false
   when: locales_default.lc_time is defined
+
+- name: Set localectl keymap (RHEL/systemd-based)
+  ansible.builtin.command: localectl set-keymap {{ locales_keyboard_layout }}
+  changed_when: false

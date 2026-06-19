@@ -21,3 +21,6 @@
 #   #lc_response: en_US.UTF-8
 #   #lc_telephone: en_US.UTF-8
 #   #lc_time: en_US.UTF-8
+
+locales_keyboard_layout: "us"
+locales_keyboard_model: "pc105"
